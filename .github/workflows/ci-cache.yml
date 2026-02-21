@@ -1,0 +1,30 @@
+name: Cache Prime Assignment
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-cache:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Create dummy dependency directory
+        run: |
+          mkdir -p dependencies
+          echo "dependency data" > dependencies/file.txt
+
+      - name: Cache dependencies
+        id: cache-step
+        uses: actions/cache@v4
+        with:
+          path: dependencies
+          key: cache-8d38695
+
+      - name: prime-cache-8d38695
+        run: echo "Cache hit occurred - ${{ steps.cache-step.outputs.cache-hit }}"
